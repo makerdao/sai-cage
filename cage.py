@@ -52,9 +52,10 @@ print("pie:  ", PIE)
 print("pie': ", PIE_)
 print("jam:  ", PIE - PIE_)
 
+print("CDP    ETH diff  Owner")
 for cup in cups:
-    #  if diff(cup, AIR, TAG, ICE, PIE) > 0 : continue
-    print('{:>3}: {:+09.4f} {}'.format(int(cup["cup"], 16),
+    #  if diff(cup, AIR, TAG, ICE, PIE, PER) > 0 : continue
+    print('{:>3}:  {:+09.4f}  {}'.format(int(cup["cup"], 16),
                                        diff(cup, AIR, TAG, ICE, PIE, PER),
                                        cup['lad']))
 
