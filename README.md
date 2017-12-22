@@ -30,9 +30,10 @@ The following assumptions are made:
 And the terms used here have the following meaning:
 
 - `tab`: CDP debt
-- `ink`: CDP collateral
+- `ink`: CDP collateral (SKR)
 - `ice`: Total CDP debt
 - `air`: Total CDP collateral
+- `pie`: Total ETH base collateral
 - `per`: ETH per SKR ratio for `exit`
 - `tag`: USD price of SKR
 - `axe`: Liquidation penalty (multiplicative, 1 is 0%, 1.2 is 20%)
