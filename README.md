@@ -79,7 +79,8 @@ diff = tag * pie' * (axe1 - axe0) (ink*ice - air*tab) / [ (air*tag - ice*axe0) (
 
 `cups.json` contains a listing of all CDPs in the system immediately
 before `cage`. All SKR that wasn't locked in a CDP was aggregated into
-CDP 255, with zero debt, for ease of calculation.
+CDP 255, with zero debt, for ease of calculation. This data can be
+regenerated with `./getcups > cups.json`.
 
 The loss calculation can be performed with `python cage.py`. The output
 shows the non-zero value CDPs and their associated loss `-` or gain `+`.

@@ -3,10 +3,6 @@ import json
 with open('cups.json') as f:
     allcups = json.load(f)
 
-for cup in allcups:
-    cup['ink'] = float(cup['ink'])
-    cup['tab'] = float(cup['tab'])
-
 cups = [cup for cup in allcups if cup['tab'] != 0 or cup['ink'] !=0]
 
 def bite(cup, tag, axe):

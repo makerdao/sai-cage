@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -e
+
+export ETH_RPC_URL=https://mainnet.infura.io/
+export ETH_BLOCK=$(seth --to-hex 4774043)  # block immediately before cage
+export SAI_TUB="0xe819300b6f3d0625632b47196233fe6671a59891"
+
+cups=$(seth rpc eth_getLogs -- -n {} -s "${SAI_TUB?}" -i address \
+                                 -s earliest    -i fromBlock \
+                                   -n [] -s "$(seth keccak "$(seth --from-ascii 'LogNewCup(address,bytes32)')")" -i append \
+                                   -i topics \
+                           -i append \
+  | echo "[$(paste -sd , -)]" \
+  | jshon -a -e data \
+  | seth --to-dec)
+
+function wad() {
+  seth --to-fix 18 $(seth --to-dec $1)
+}
+
+jshon+=(-n [])
+for cup in $cups; do
+  cup="$(seth --to-hexdata "$(seth --to-uint256 "$cup")")"
+  struct=$(seth call $SAI_TUB 'cups(bytes32)(address,uint128,uint128)' $(echo $cup))
+  read -r lad art ink < <(echo $struct)
+  jshon+=( -n {} -s "$cup"        -i "cup" \
+                 -s "0x$lad"      -i "lad" \
+                 -n "$(wad $art)" -i "tab" \
+                 -n "$(wad $ink)" -i "ink" \
+              -i append)
+done
+
+SAI_SKR=$(seth call $SAI_TUB 'skr()(address)')
+air=$(wad $(seth call $SAI_TUB 'air()(uint256)'))
+fat=$(wad $(seth call $SAI_SKR 'totalSupply()(uint256)'))
+
+jshon+=( -n {} -s "0x00000000000000000000000000000000000000000000000000000000000000ff" -i "cup" \
+               -s "0xffffffffffffffffffffffffffffffffffffffff" -i "lad" \
+               -n "0.0" -i "tab" \
+               -n "$(bc -l <<< "$fat - $air")" -i "ink" \
+            -i append)
+jshon ${jshon[@]}
